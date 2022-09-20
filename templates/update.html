@@ -9,11 +9,11 @@
     <h1 style="text-align: center">Update Task</h1>
 
     <div class="form">
-        <form action="/update/{{task.id}}" method="POST">
-            <input type="integer" name="sequence" id="content" value="{{task.content}}">
-            <input type="integer" name="node_from" id="content1" value="{{task.content1}}">
-            <input type="integer" name="node_to" id="content2" value="{{task.content2}}">
-            <input type="float" name="suseptance" id="content3" value="{{task.content3}}">
+        <form action="/lines/update/{{line.id}}" method="POST">
+            <input type="integer" name="line_name" value="{{line.line_name}}">
+            <input type="integer" name="node_from" value="{{line.node_from}}">
+            <input type="integer" name="node_to" value="{{line.node_to}}">
+            <input type="float" name="susceptance" value="{{line.susceptance}}">
             <input type="submit" value="Update">
         </form>
     </div>

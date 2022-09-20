@@ -13,7 +13,7 @@
     <table>
         <tr>
             <th>line id</th>
-            <th>line id</th>
+            <th>line name</th>
             <th>node from</th>
             <th>node to</th>
             <th>suseptance</th>
@@ -23,13 +23,13 @@
         {% for line in lines %}
             <tr>
                 <td>{{ line.id }}</td>
-                <td>{{ line.sequence }}</td>
-                <td>{{ line.node_from }}</td>
-                <td>{{ line.node_to }}</td>
-                <td>{{ line.suseptance }}</td>
+                <td>{{ line.line_name_prop }}</td>
+                <td>{{ line.node_from_prop }}</td>
+                <td>{{ line.node_to_prop }}</td>
+                <td>{{ line.susceptance_prop }}</td>
                 <td>{{ line.date_created.date() }}</td>
                 <td>
-                    <a href="/delete/{{line.id}}">Delete</a>
+                    <a href="{{ url_for('delete', id=line.id) }}">Delete</a>
                     <br>
                     <a href="/update/{{line.id}}">Update</a>
                 </td>
@@ -40,10 +40,10 @@
 
     <div>
         <form action="/" method="POST">
-            <input type="integer" name="sequence" id="content">
-            <input type="integer" name="node_from" id="content1">
-            <input type="integer" name="node_to" id="content2">
-            <input type="float" name="suseptance" id="content3">
+            <input type="integer" name="line_name">
+            <input type="integer" name="node_from">
+            <input type="integer" name="node_to">
+            <input type="float" name="susceptance">
             <input type="submit" value="Submit">
         </form>
     </div>

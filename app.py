@@ -10,27 +10,30 @@ migrate = Migrate(app, db)
 
 class Lines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Integer)
-    content1 = db.Column(db.Integer)
-    content2 = db.Column(db.Integer)
-    content3 = db.Column(db.Float)
+    line_name_prop = db.Column(db.Integer)
+    node_from_prop = db.Column(db.Integer)
+    node_to_prop = db.Column(db.Integer)
+    susceptance_prop = db.Column(db.Float)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<Task %r>' % self.id
 
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
 def index():
+    return redirect('/lines')
+
+@app.route('/lines', methods=['POST', 'GET'])
+def arbitrary():
     if request.method == 'POST':
-        task_content = request.form['sequence']
-        task_content1 = request.form['node_from']
-        task_content2 = request.form['node_to']
-        task_content3 = request.form['suseptance']
-        new_line = Lines(content=task_content, content1=task_content1, content3=task_content3, content2=task_content2)
+        line_name = request.form['line_name']
+        node_from = request.form['node_from']
+        node_to = request.form['node_to']
+        susceptance = request.form['susceptance']
+        add_line = Lines(line_name_prop=line_name, node_from_prop=node_from, node_to_prop=node_to, susceptance_prop=susceptance)
 
         try:
-            db.session.add(new_line)
+            db.session.add(add_line)
             db.session.commit()
             return redirect('/')
         except:
@@ -41,32 +44,35 @@ def index():
         return render_template('index.html', lines=lines)
 
 
-@app.route('/delete/<int:id>')
+@app.route('/lines/delete/<int:id>')
 def delete(id):
-    task_to_delete = Lines.query.get_or_404(id)
+    line_to_delete = Lines.query.get_or_404(id)
 
     try:
-        db.session.delete(task_to_delete)
+        db.session.delete(line_to_delete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/lines')
     except:
         return 'There was a problem deleting that task'
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/lines/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    task = Lines.query.get_or_404(id)
+    line = Lines.query.get_or_404(id)
 
     if request.method == 'POST':
-        task.content = request.form['content']
-
+        line.line_name_prop = request.form['line_name']
+        line.node_from_prop = request.form['node_from']
+        line.node_to_prop = request.form['node_to']
+        line.susceptance_prop = request.form['susceptance']
+        
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/lines')
         except:
             return 'There was an issue updating your task'
 
     else:
-        return render_template('update.html', task=task)
+        return render_template('update.html', line=line)
 
 
 if __name__ == "__main__":
